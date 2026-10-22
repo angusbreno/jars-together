@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; style-src-attr 'unsafe-inline'; img-src 'self' blob:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Kink and romance jars together, in six languages. Fill your jars and save your picture.">
+  <meta name="theme-color" content="#fbf6ef">
+  <title>Jars Together — Kinks &amp; Romance</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./assets/styles.css">
+  <script type="module" src="./assets/app.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="topline">
+      <a class="brand" href="./">Jars Together</a>
+      <label class="language-picker"><span data-i18n="language">Language</span>
+        <select id="language">
+          <option value="en-US" lang="en-US">English (US)</option>
+          <option value="pt-BR" lang="pt-BR">Português (Brasil)</option>
+          <option value="es" lang="es">Español</option>
+          <option value="fr" lang="fr">Français</option>
+          <option value="de" lang="de">Deutsch</option>
+          <option value="zh-CN" lang="zh-CN">简体中文</option>
+        </select>
+      </label>
+    </div>
+    <h1><span class="title-plain" data-i18n="title">Fill your</span> <span data-i18n="titleAccent">jars</span></h1>
+    <p data-i18n="intro">Two collections, your own preferences. Pick a color, fill your jars, and save your picture.</p>
+    <nav class="mode-menu" aria-label="Jars Together">
+      <button type="button" data-mode="kink" aria-pressed="true" data-i18n="kink">Kinks</button>
+      <button type="button" data-mode="romance" aria-pressed="false" data-i18n="romance">Romance</button>
+    </nav>
+  </header>
+  <p id="storageWarning" class="warning" role="status" hidden></p>
+  <p id="bootError" class="warning" role="alert" hidden>Unable to load the site. Please reload the page. For local use, open it through a web server as described in README.md.</p>
+  <noscript><p class="warning">Please enable JavaScript to fill your jars.</p></noscript>
+  <div class="layout">
+    <main>
+      <section class="panel">
+        <div class="step" data-step="1">Step 1</div>
+        <h2 id="nameHeading" data-i18n="nameTitle">What's your name?</h2>
+        <p class="hint" id="nameHint" data-i18n="nameHint">Nickname is fine, or leave it blank. It appears on your picture.</p>
+        <input type="text" id="name" maxlength="24" autocomplete="off" aria-labelledby="nameHeading" aria-describedby="nameHint" placeholder="Your name">
+      </section>
+      <section class="panel">
+        <div class="step" data-step="2">Step 2</div>
+        <h2 data-i18n="colorTitle">Pick your color</h2>
+        <div class="picker">
+          <div>
+            <div class="swatches" id="swatches" role="group" aria-label="Color choices"></div>
+            <div class="sliders">
+              <label class="sl"><span data-i18n="red">Red</span><input type="range" id="r" min="0" max="255"><output id="rv" for="r"></output></label>
+              <label class="sl"><span data-i18n="green">Green</span><input type="range" id="g" min="0" max="255"><output id="gv" for="g"></output></label>
+              <label class="sl"><span data-i18n="blue">Blue</span><input type="range" id="b" min="0" max="255"><output id="bv" for="b"></output></label>
+            </div>
+            <div class="hexrow">
+              <input type="text" id="hex" maxlength="7" spellcheck="false" aria-label="Color code">
+              <button class="ghost" id="surprise" type="button" data-i18n="surprise">Surprise me</button>
+            </div>
+          </div>
+          <div class="preview-jars" aria-hidden="true"><canvas id="pv1"></canvas><canvas id="pv2"></canvas><canvas id="pv3"></canvas></div>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="step" data-step="3">Step 3</div>
+        <h2 id="collectionHeading">Kink Jars</h2>
+        <p class="hint" data-i18n="fillHint">0 is empty, 5 is full. Tap 5 again for more overflow.</p>
+        <p class="adult-note" id="adultNote" data-i18n="adultNote">Kink terms refer to consenting adults. Preferences are personal; a rating is never consent.</p>
+        <div id="questions" aria-labelledby="collectionHeading"></div>
+      </section>
+    </main>
+    <aside class="side">
+      <section class="panel" id="done">
+        <div class="step" data-step="4">Step 4</div>
+        <h2 data-i18n="yourJars">Your jars</h2>
+        <canvas class="poster" id="poster" role="img" aria-label="Preview of your filled jars"></canvas>
+        <button class="big" id="save" type="button" data-i18n="save">Save my jars</button>
+        <div class="small-links"><span data-i18n="privacy">Your answers stay in this browser.</span><button class="linkbtn" id="reset" type="button" data-i18n="reset">Start over</button></div>
+      </section>
+    </aside>
+  </div>
+  <footer><p data-i18n="credits">Based on Kink Jars by LockedTony and Romantic Jars by Black Whisker Cult.</p><a href="https://github.com/LockedTony/kink-jars" target="_blank" rel="noopener noreferrer">Kink Jars ↗</a> · <a href="https://romance.blackwhiskercult.com/" target="_blank" rel="noopener noreferrer">Romantic Jars ↗</a></footer>
+</div>
+<div class="bar"><div class="bar-in"><span id="progress" role="status" aria-live="polite">0 of 28 filled</span><button class="big" id="saveBar" type="button" data-i18n="save">Save my jars</button></div></div>
+<dialog id="modal" aria-labelledby="mt" aria-describedby="modalHint">
+  <div class="sheet">
+    <h3 id="mt" data-i18n="modalTitle">Here are your jars!</h3>
+    <p id="modalHint" data-i18n="modalHint">If the download didn't start, press and hold the picture (or right-click) and choose Save image.</p>
+    <img id="modalImg" alt="Your filled jars">
+    <button class="big" id="closeModal" type="button" data-i18n="done">Done</button>
+  </div>
+</dialog>
+<template id="question-template">
+  <article class="q">
+    <canvas aria-hidden="true"></canvas>
+    <div class="qcontent">
+      <div class="qnum"></div>
+      <div class="qlabel-row">
+        <h3 class="qlabel"></h3>
+        <div class="help">
+          <button type="button" class="help-button" aria-expanded="false">?</button>
+          <div class="tooltip" role="tooltip" hidden></div>
+        </div>
+      </div>
+      <div class="scale" role="group"></div>
+      <div class="ends"><span></span><span></span></div>
+      <div class="answer-status" aria-live="polite"></div>
+    </div>
+  </article>
+</template>
+</body>
+</html>

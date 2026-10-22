@@ -1,0 +1,11 @@
+{
+  "name": "jars-together",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Kink and romance jars in six languages, ready for GitHub Pages.",
+  "scripts": {
+    "start": "python3 -m http.server 4173 --bind 127.0.0.1",
+    "test": "node --test tests/*.test.js"
+  }
+}
