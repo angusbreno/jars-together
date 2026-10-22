@@ -75,3 +75,17 @@ test('deployment actions are pinned and write permissions are isolated from code
   assert.match(deploy, /id-token: write/);
   assert.doesNotMatch(deploy, /run:|checkout@/);
 });
+
+test('CodeQL analyzes JavaScript and Actions without executing the application or gaining content write access', async () => {
+  const workflow = await read('.github/workflows/security.yml');
+  assert.match(workflow, /language: \[javascript-typescript, actions\]/);
+  assert.match(workflow, /queries: security-extended/);
+  assert.match(workflow, /build-mode: none/);
+  assert.match(workflow, /persist-credentials: false/);
+  assert.match(workflow, /security-events: write/);
+  assert.doesNotMatch(workflow, /contents: write|pages: write|id-token: write|pull_request_target|\brun:/);
+  for (const [, name, revision] of workflow.matchAll(/uses:\s*([^\s@]+)@([^\s]+)/g)) {
+    assert.ok(name === 'actions/checkout' || name.startsWith('github/codeql-action/'), name);
+    assert.match(revision, /^[a-f0-9]{40}$/, name);
+  }
+});

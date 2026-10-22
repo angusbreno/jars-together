@@ -32,6 +32,8 @@ Execute `npm test` sem instalar dependências. Os testes de segurança estão em
 
 O repositório usa detecção de segredos e proteção contra envio de segredos habilitadas. O token padrão de GitHub Actions tem acesso de leitura e não pode aprovar pull requests. A publicação do Pages exige HTTPS.
 
+O workflow `.github/workflows/security.yml` executa CodeQL com consultas de segurança ampliadas para JavaScript e GitHub Actions a cada alteração em `main` e nos pull requests. A análise usa ações fixadas por SHA e não faz build nem executa a aplicação. Os resultados ficam na área [Code scanning](https://github.com/angusbreno/jars-together/security/code-scanning).
+
 Para relatar uma possível vulnerabilidade sem publicá-la em uma issue, use [Report a vulnerability](https://github.com/angusbreno/jars-together/security/advisories/new).
 
 Referências: [CSP — MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy) e [uso seguro de GitHub Actions](https://docs.github.com/en/actions/reference/security/secure-use).
